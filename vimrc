@@ -1,0 +1,36 @@
+" shreesh's vimrc
+
+" Enable syntax highlighting
+syntax on
+
+" Enable line numbers
+set number
+
+" Enable relative line numbers
+set relativenumber
+
+" Set indentation
+set tabstop=4       " Number of spaces a <Tab> in the file counts for
+set shiftwidth=4    " Number of spaces used for each step of (auto)indent
+set expandtab        " Use spaces instead of tabs
+
+" Auto-indent new lines
+set autoindent
+set smartindent
+
+" Highlight matching parentheses
+set showmatch
+
+" Use system clipboard
+set clipboard=unnamed
+
+" Highlight cursor line and column
+set cursorline
+set cursorcolumn
+
+" Set highlight color for cursor line and column
+highlight CursorLine   ctermbg=236 guibg=#111111
+highlight CursorColumn ctermbg=236 guibg=#111111
+
+" Save no swap files
+set noswapfile
