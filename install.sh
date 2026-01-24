@@ -1,6 +1,6 @@
 #!/bin/bash
 
-DIR="$(cd "$(dirname "$0")" && pwd)"
+CONFIG_DIR="$(cd "$(dirname "$0")" && pwd)"
 
 link() {
     src="$1"
@@ -10,19 +10,24 @@ link() {
         read -p "$dest exists. Override? [y/N] " answer
         if [[ ! "$answer" =~ ^[Yy]$ ]]; then
             echo "Skipping $dest"
+            echo ""
             return
         fi
     fi
     
     ln -sf "$src" "$dest"
     echo "Linked $dest"
+    echo ""
 }
 
+# csh
+link "$CONFIG_DIR/cshrc_custom" ~/.cshrc_custom
+
 # vim
-link "$DIR/vimrc" ~/.vimrc
+link "$CONFIG_DIR/vimrc" ~/.vimrc
 
 # kitty
 mkdir -p ~/.config/kitty
-link "$DIR/kitty.conf" ~/.config/kitty/kitty.conf
+link "$CONFIG_DIR/kitty.conf" ~/.config/kitty/kitty.conf
 
 echo "Done"
