@@ -1,0 +1,181 @@
+# shreesht (fullchip dv)
+# $Id: //hw/nv/env/.cshrc_custom#2 $
+
+# Workspace directories
+setenv WS_DIR /home/shreesht.scratch/workspace
+
+########################################
+# EDITOR AND DIFFER 
+########################################
+# Dynamically set EDITOR: use 'cursor' if running in Cursor or VSCode, else fallback to 'vim'
+if ($?TERM_PROGRAM) then
+    if ("$TERM_PROGRAM" == "Cursor" || "$TERM_PROGRAM" == "vscode") then
+        setenv EDITOR cursor
+        setenv DIFFER "cursor -dw"
+        setenv GIT_EXTERNAL_DIFF "cursor -dw"
+    else
+        setenv EDITOR vim
+        setenv DIFFER "vimdiff"
+        setenv GIT_EXTERNAL_DIFF "vimdiff"
+    endif
+else
+    setenv EDITOR vim
+    setenv DIFFER "vimdiff"
+    setenv GIT_EXTERNAL_DIFF "vimdiff"
+endif
+
+# VSCODE_GIT_ASKPASS_NODE is only defined when running under vscode or cursor terminal
+if ($?VSCODE_GIT_ASKPASS_NODE) then
+    set path = ( \
+        `dirname $VSCODE_GIT_ASKPASS_NODE`/bin/remote-cli \
+        `dirname $VSCODE_GIT_ASKPASS_NODE` \
+        $path:q \
+    )
+endif
+
+alias e "$EDITOR" # e <filename>
+alias diff "$DIFFER" # diff <file1> <file2>
+
+alias esh "e $WS_DIR/scripts/sheesh"
+alias sheesh "source $WS_DIR/scripts/sheesh"
+
+########################################
+# CUSTOM ENV VARIABLES
+########################################
+
+# Path to my personal scratch directory
+setenv SCRATCH_DIR /home/shreesht.scratch
+
+########################################
+# CUSTOM ALIASES
+########################################
+
+# Editor aliases
+alias vim "vimx" # Use vimx instead of vim
+
+# Navigation
+alias . 'pwd'
+alias .. 'pwd && cd .. && pwd'
+alias ... 'pwd && cd .. && pwd && cd .. && pwd'
+alias cdd 'cd $cwd:h'
+
+# Famous directories
+alias scr "cd $SCRATCH_DIR" # Change to my scratch directory
+
+# Environment management
+alias env "/home/nv/bin/envupdate -c" # Update environment
+alias src "source /home/shreesht/.cshrc" # Source my custom cshrc
+alias erc "$EDITOR ~/.cshrc_custom" # Edit my custom cshrc
+alias r "reset && source ~/.cshrc"
+
+# Utility aliases
+alias nv "socialgpt"
+alias h "history"
+alias clear "clear && printf '\e[3J'"
+alias p4reset "p4 sync --parallel=threads=3 -f ./...@_golden_nvgpu"
+alias py "python3"
+
+# rm Guards
+alias rm "rm -i"
+
+#######################################
+# CUSTOM PATHS
+########################################
+# Ensure local user bin directory is first in PATH (csh/tcsh style)
+if ( -d "$HOME/.local/bin" ) then
+    set path = ( \
+        $HOME/.local/bin \
+        $path:q \
+    )
+endif
+
+# Fav utils 
+set path = ( \
+    /home/utils/tmux-3.5a/bin \
+    /home/utils/xclip-0.13/bin \
+    /home/utils/doxygen-1.9.4/bin \
+    /home/utils/graphviz-10.0.1/bin \
+    /home/nv/bin/socialgpt \
+    /home/utils/tkdiff-4.3.4/tkdiff \
+    /home/utils/neovim-0.10.3/bin \
+    /home/utils/node-23.6.0/bin \
+    /home/shreesht/google-cloud-sdk/bin \
+    $path:q \
+)
+
+# FCV utils
+set path = ( \
+   /home/nv/utils/fcv/common \
+   $WS_DIR/utils \
+   $HOME/ws/scripts \
+   $path:q \
+)   
+
+# Python
+set path = ( \
+    /home/utils/Python-3.12.5/bin \
+    $path:q \
+)
+
+# VSCode config 
+# If VSCode/GLSPC fails
+# Source: https://confluence.nvidia.com/display/CPUGRP/RBV+for+VSCode
+# set path = (/home/rbs_utils/utils /home/ip/shared/inf/rbs/1.0/tools_links $path:q)
+
+# Crucible config  
+# Wrapper for Perforce; don't use system default p4
+set path = (/home/nv/utils/crucible/1.0/bin $path:q)
+
+# Perforce config 
+# Set default Perforce editor (avoid graphical gvim issues)
+if ("$EDITOR" == "cursor" || "$EDITOR" == "code") then
+    setenv P4EDITOR "$EDITOR --wait" # Make sure cursor/vsc is launched in blocking mode
+    setenv P4DIFF "$EDITOR -dw" # Use cursor for diff with wait flag
+    setenv P4MERGE "$EDITOR --wait --merge"
+else
+    setenv P4EDITOR "$EDITOR"
+    setenv P4DIFF "diff -u" 
+endif
+
+setenv P4CONFIG .p4config # Enable Perforce to read client-specific settings from .p4config in each workspace
+
+########################################
+# CUSTOM FUNCTIONS 
+########################################
+; ### Bookmark 
+; alias bm 'rm -rf ~/bookmark && echo `pwd` > ~/bookmark && echo "Bookmarked `pwd`"' # Bookmark current dir
+; alias bk 'if ( -f ~/bookmark ) cd "`cat ~/bookmark`"' # Change to bookmark dir
+; alias sbk 'if ( -f ~/bookmark ) echo "Bookmark: `cat ~/bookmark`"; if ( ! -f ~/bookmark ) echo "No bookmark set"' # Show bookmark dir
+; alias xbm 'rm -f ~/bookmark && echo "Bookmark cleared"' # Clear bookmark dir
+
+; ### Logging 
+; setenv LISTEN_LOG "~/listen.log" # Path to log file 
+; alias lsn 'rm -f $LISTEN_LOG && echo "Command: \!*" > $LISTEN_LOG && \!* |& tee -a $LISTEN_LOG' # Save command output to log file
+; alias tll '$EDITOR $LISTEN_LOG' # View log file in editor
+
+alias ws "cd $WS_DIR"
+alias dep "cd `depth`"
+alias abs 'pwd && cd "`readlink -f .`"'
+alias sc "scrappy"
+alias chipnemo "/home/nv/utils/chipnemo-cli/release/chipnemo"
+alias nemo "chipnemo ask --stream --model 'Claude Sonnet 4.5'"
+
+# For kitty
+bindkey "\e[1;3D" backward-word
+bindkey "\e[1;3C" forward-word
+bindkey "\eb" backward-word
+bindkey "\ef" forward-word
+
+source /home/nv/utils/ghw-nvci/latest/setup/nvci-setup.csh
+
+# Regular cleanup so we dont hit process limit on cursor 
+alias clean 'set pids = (`ps -e | grep "[v]imdiff" | sed -e "s/^[ ]*//" -e "s/ .*//"`); if ("$pids" != "") kill -9 $pids'
+clean
+
+########################################
+# Pretty
+########################################
+setenv NAME "shreesht"
+setenv HOST "pdx"
+set prompt="%{\033[38;2;118;185;0m%}$NAME%{\033[38;2;255;85;255m%}@$HOST%{\033[38;2;0;122;255m%}[%c]>%{\033[0m%} "
+################################### END OF FILE ###################################

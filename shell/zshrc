@@ -1,0 +1,83 @@
+# shreesht (fullchip dv)
+
+# Paths and directory variables
+source ~/config/shell/paths.zsh
+
+########################################
+# EDITOR AND DIFFER 
+########################################
+# Dynamically set EDITOR: use 'cursor' if running in Cursor or VSCode, else fallback to 'vim'
+if [[ -n "${TERM_PROGRAM:-}" ]]; then
+    if [[ "$TERM_PROGRAM" == "Cursor" || "$TERM_PROGRAM" == "vscode" ]]; then
+        export EDITOR=cursor
+        export DIFFER="cursor -dw"
+        export GIT_EXTERNAL_DIFF="cursor -dw"
+    else
+        export EDITOR=vim
+        export DIFFER="vimdiff"
+        export GIT_EXTERNAL_DIFF="vimdiff"
+    fi
+else
+    export EDITOR=vim
+    export DIFFER="vimdiff"
+    export GIT_EXTERNAL_DIFF="vimdiff"
+fi
+
+# VSCODE_GIT_ASKPASS_NODE is only defined when running under vscode or cursor terminal
+if [[ -n "${VSCODE_GIT_ASKPASS_NODE:-}" ]]; then
+    path=(
+        "$(dirname $VSCODE_GIT_ASKPASS_NODE)/bin/remote-cli"
+        "$(dirname $VSCODE_GIT_ASKPASS_NODE)"
+        $path
+    )
+fi
+
+########################################
+# PERFORCE
+########################################
+# Perforce config 
+# Set default Perforce editor (avoid graphical gvim issues)
+if [[ "$EDITOR" == "cursor" || "$EDITOR" == "code" ]]; then
+    export P4EDITOR="$EDITOR --wait"
+    export P4DIFF="$EDITOR -dw"
+    export P4MERGE="$EDITOR --wait --merge"
+else
+    export P4EDITOR="$EDITOR"
+    export P4DIFF="diff -u"
+fi
+export P4CONFIG=.p4config
+
+########################################
+# ALIASES
+########################################
+source ~/config/shell/aliases.zsh
+
+# Cleanup vimdiff processes
+clean() {
+    local pids
+    pids=$(ps -e | grep "[v]imdiff" | awk '{print $1}' | tr '\n' ' ')
+    [[ -n "$pids" ]] && kill -9 $pids 2>/dev/null
+}
+clean
+
+########################################
+# KEYBINDINGS
+########################################
+source ~/config/shell/keybinds.zsh
+
+########################################
+# HISTORY
+########################################
+HISTFILE=~/.zsh_history
+HISTSIZE=50000          # Keep 50k commands in memory
+SAVEHIST=50000          # Save 50k commands to disk
+setopt EXTENDED_HISTORY      # Record timestamp of command
+setopt INC_APPEND_HISTORY    # Write to history file immediately
+setopt SHARE_HISTORY         # Share history across all sessions
+setopt HIST_IGNORE_DUPS      # Don't record duplicate commands
+setopt HIST_FIND_NO_DUPS     # Don't show duplicates in search
+
+########################################
+# PROMPT
+########################################
+source ~/config/shell/pretty.zsh

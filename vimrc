@@ -24,16 +24,17 @@ set showmatch
 " Use system clipboard
 set clipboard=unnamed
 
-" Highlight cursor line and column
+" Highlight cursor line (no column - too distracting)
 set cursorline
-set cursorcolumn
 
-" Set highlight color for cursor line and column
-highlight CursorLine   ctermbg=236 guibg=#111111
-highlight CursorColumn ctermbg=236 guibg=#111111
+" Set highlight color for cursor line
+highlight CursorLine ctermbg=236 guibg=#111111
 
 " Save no swap files
 set noswapfile
 
 " Title 
 set statusline=%t
+
+" System clipboard
+set clipboard=unnamedplus
