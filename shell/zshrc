@@ -69,8 +69,8 @@ source ~/config/shell/keybinds.zsh
 # HISTORY
 ########################################
 HISTFILE=~/.zsh_history
-HISTSIZE=50000          # Keep 50k commands in memory
-SAVEHIST=50000          # Save 50k commands to disk
+HISTSIZE=50000
+SAVEHIST=50000
 setopt EXTENDED_HISTORY      # Record timestamp of command
 setopt INC_APPEND_HISTORY    # Write to history file immediately
 setopt SHARE_HISTORY         # Share history across all sessions

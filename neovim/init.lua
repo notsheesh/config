@@ -10,6 +10,8 @@ vim.o.signcolumn = "yes"
 vim.o.scrolloff = 8
 vim.o.updatetime = 250
 vim.o.clipboard = "unnamedplus"
+require("clipboard")
+
 vim.o.ignorecase = true
 vim.o.smartcase = true
 vim.o.splitright = true
@@ -84,6 +86,10 @@ require("lazy").setup({
 
     -- editing
     { "andymass/vim-matchup", event = "BufReadPost" },
+    {
+        "google/vim-searchindex",
+        init = function() vim.g.searchindex_line_limit = 10000000 end,
+    },
 })
 
 -- theme picker (<leader>t to cycle)

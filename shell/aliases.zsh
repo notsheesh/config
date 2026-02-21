@@ -57,14 +57,16 @@ flx() {
 }
 
 # Environment
-alias env="/home/nv/bin/envupdate -c"
+alias envupdate="/home/nv/bin/envupdate -c"
 alias src="source ~/.zshrc"
 alias erc="$EDITOR ~/.zshrc"
 alias r="reset && source ~/.zshrc"
 
 # Utility
 alias nv="socialgpt"
-alias h="history"
+alias h100='history -100'
+alias h50='history -50'
+alias h='history'
 alias clear="clear && printf '\e[3J'"
 alias py="python3"
 # rm wrapper in $WS_DIR/utils/rm guards against rm -rf accidents

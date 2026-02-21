@@ -2,6 +2,7 @@
 
 # Directory variables
 export WS_DIR=/home/shreesht.scratch/workspace
+export LOGS_DIR=$HOME/logs
 export SCRATCH_DIR=/home/shreesht.scratch
 export PVT_DIR=/home/shreesht.scratch/private/
 export OBSIDIAN_VAULT_DIR=/home/shreesht.scratch/private/obsidian-vaults/
