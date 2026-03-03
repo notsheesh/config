@@ -24,6 +24,8 @@ path=(
     /home/utils/neovim-0.11.4/bin                   # neovim
     /home/utils/node-23.6.0/bin                     # node
     /home/nv/bin/socialgpt                          # socialgpt
+    /home/tools_ai/anthropic-ai/claude/stable/claude # claude
+    $(depth)/diag/testgen/
     $path
 )
 

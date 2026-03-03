@@ -83,6 +83,13 @@ require("lazy").setup({
     -- ui
     { "lukas-reineke/indent-blankline.nvim", main = "ibl", opts = {} },
     { "OXY2DEV/markview.nvim", ft = "markdown" },
+    {
+        "folke/snacks.nvim",
+        opts = {
+            bigfile = { enabled = true },
+            quickfile = { enabled = true },
+        },
+    },
 
     -- editing
     { "andymass/vim-matchup", event = "BufReadPost" },

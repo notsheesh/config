@@ -2,12 +2,15 @@
 
 # ls without bold (use colors but no bold)
 export LS_COLORS='di=34:ln=36:so=35:pi=33:ex=32:bd=33;40:cd=33;40:su=32;40:sg=32;40:tw=34;40:ow=34;40'
-alias ls='ls --color=auto'
+alias ls="eza --icons=always --sort=extension --group-directories-first --dereference --header"
+alias lsd="ls -D" 
+alias lsf="ls -f"
 
 # Editor
 alias e="$EDITOR"
 alias diff="$DIFFER"
 alias vim="nvim"
+alias vimdiff="nvim -d"
 alias esh="e $WS_DIR/scripts/sheesh"
 alias sheesh="source $WS_DIR/scripts/sheesh"
 
@@ -29,8 +32,10 @@ alias ws="cd $WS_DIR"
 alias scr="cd $SCRATCH_DIR"
 alias pvt="cd $PVT_DIR" 
 alias obs="cd $OBSIDIAN_VAULT_DIR"
+alias note="$EDITOR $OBSIDIAN_VAULT_DIR/note.txt"
 alias nvsync="bash $OBSIDIAN_VAULT_DIR/sync.sh" 
 alias dep='cd "$(depth)"'
+alias batch_status='$(depth)/diag/testgen/batch_status'
 alias abs='pwd && cd "$(readlink -f .)"'
 
 # flx: jump to clone by ID or run command
