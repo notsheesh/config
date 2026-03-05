@@ -5,6 +5,8 @@ export LS_COLORS='di=34:ln=36:so=35:pi=33:ex=32:bd=33;40:cd=33;40:su=32;40:sg=32
 alias ls="eza --icons=always --sort=extension --group-directories-first --dereference --header"
 alias lsd="ls -D" 
 alias lsf="ls -f"
+alias go="z" 
+alias goi="zi"
 
 # Editor
 alias e="$EDITOR"
@@ -24,7 +26,6 @@ back() {
     target="$(command back "$1")" || return $?
     cd "$target" && pwd
 }
-alias .='pwd'
 alias ..='pwd && cd .. && pwd'
 alias ...='pwd && cd .. && pwd && cd .. && pwd'
 alias cdd='cd "${PWD%/*}"'

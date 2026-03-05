@@ -86,7 +86,10 @@ require("lazy").setup({
     {
         "folke/snacks.nvim",
         opts = {
-            bigfile = { enabled = true },
+            bigfile = {
+                enabled = true,
+                size = 1024 * 1024 * 1024, -- 1GB
+            },
             quickfile = { enabled = true },
         },
     },
