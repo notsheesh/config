@@ -1,6 +1,6 @@
 #!/bin/bash
 
-CONFIG_DIR="$(cd "$(dirname "$0")" && pwd)"
+config="$(cd "$(dirname "$0")" && pwd)"
 FORCE=false
 
 [[ "$1" == "-y" ]] && FORCE=true
@@ -26,23 +26,23 @@ link() {
 }
 
 # csh
-link "$CONFIG_DIR/cshrc_custom" ~/.cshrc_custom
+link "$config/cshrc_custom" ~/.cshrc_custom
 
 # zsh
-link "$CONFIG_DIR/shell/zshrc" ~/.zshrc
+link "$config/shell/zshrc" ~/.zshrc
 
 # vim
-link "$CONFIG_DIR/vimrc" ~/.vimrc
+link "$config/vimrc" ~/.vimrc
 
 # neovim
 mkdir -p ~/.config
-link "$CONFIG_DIR/neovim" ~/.config/nvim
+link "$config/neovim" ~/.config/nvim
 
 # kitty
 mkdir -p ~/.config/kitty
-link "$CONFIG_DIR/kitty.conf" ~/.config/kitty/kitty.conf
+link "$config/kitty.conf" ~/.config/kitty/kitty.conf
 
 # tmux 
-link "$CONFIG_DIR/tmux.conf" ~/.tmux.conf
+link "$config/tmux.conf" ~/.tmux.conf
 
 echo "Done"

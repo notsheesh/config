@@ -1,17 +1,24 @@
 # Path configuration for zsh
 
 # Directory variables
-export WS_DIR=/home/shreesht.scratch/workspace
-export LOGS_DIR=$HOME/logs
-export SCRATCH_DIR=/home/shreesht.scratch
-export PVT_DIR=/home/shreesht.scratch/private/
-export OBSIDIAN_VAULT_DIR=/home/shreesht.scratch/private/obsidian-vaults/
+export ws=/home/shreesht.scratch/workspace
+export log=$HOME/log
+export scratch=/home/shreesht.scratch
+export pvt=$scratch/private/
+export obs=$pvt/obsidian-vaults/
+export config=$HOME/config
 
+alias ws="cd $ws" 
+alias log="cd $log" 
+alias scr="cd $scratch" 
+alias pvt="cd $pvt" 
+alias obs="cd $obs" 
+alias config="cd $config"
 path=(
     $HOME/.npm-global/bin                           # npm global packages
     $HOME/.local/bin                                # Local user bin
     $HOME/utils                                     # Shreesh's utils
-    $HOME/ws/scripts                                # Scripts
+    $ws/scripts                                     # Scripts
     /home/nv/utils/fcv/common                       # FCV
     /home/nv/utils/crucible/1.0/bin                 # Crucible (Perforce wrapper)
     /home/utils/Python-3.12.5/bin                   # Python
