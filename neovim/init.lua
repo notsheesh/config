@@ -100,53 +100,6 @@ require("lazy").setup({
         "google/vim-searchindex",
         init = function() vim.g.searchindex_line_limit = 10000000 end,
     },
-    {
-        "nvim-mini/mini.hipatterns",
-        enabled = false,
-        config = function()
-            local hipatterns = require("mini.hipatterns")
-            local function ci_lua_pattern(word)
-                return (word:gsub("%a", function(c)
-                    return "[" .. c:lower() .. c:upper() .. "]"
-                end))
-            end
-
-            local function ci_word_pattern(word)
-                return "%f[%w]" .. ci_lua_pattern(word) .. "%f[%W]"
-            end
-
-            local highlighters = {}
-
-            local function add_word_group(prefix, words, group)
-                for _, word in ipairs(words) do
-                    highlighters[prefix .. "_" .. word:lower()] = {
-                        pattern = ci_word_pattern(word),
-                        group = group,
-                    }
-                end
-            end
-
-            add_word_group("error", { "ERROR", "ERR", "FATAL", "FAIL", "FAILED" }, "DiagnosticError")
-            highlighters.pri_access = {
-                pattern = "%f[%w]" .. ci_lua_pattern("PRI access") .. "%f[%W]",
-                group = "DiagnosticWarn",
-            }
-
-            hipatterns.setup({
-                highlighters = highlighters,
-            })
-
-            local enabled = true
-            vim.keymap.set("n", "<leader>uh", function()
-                if enabled then
-                    hipatterns.disable(0)
-                else
-                    hipatterns.enable(0)
-                end
-                enabled = not enabled
-            end, { desc = "Toggle pattern highlights" })
-        end,
-    },
 })
 
 -- theme picker (<leader>t to cycle)
