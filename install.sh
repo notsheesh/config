@@ -26,7 +26,7 @@ link() {
 }
 
 # csh
-link "$config/cshrc_custom" ~/.cshrc_custom
+link "$config/shell/csh2zsh_hack" ~/.cshrc_custom
 
 # zsh
 link "$config/shell/zshrc" ~/.zshrc

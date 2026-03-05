@@ -1,0 +1,4 @@
+# Switch to zsh for interactive sessions
+if ($?prompt) then
+    exec /bin/zsh -l
+endif
